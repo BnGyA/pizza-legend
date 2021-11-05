@@ -1,6 +1,6 @@
 class GameObject {
   constructor(config) {
-    this.id = null; 
+    this.id = null;
     this.isMounted = false;
     this.x = config.x || 0;
     this.y = config.y || 0;
@@ -13,45 +13,51 @@ class GameObject {
     this.behaviorLoop = config.behaviorLoop || [];
     this.behaviorLoopIndex = 0;
 
-    this.talking = config.talking || []
+    this.talking = config.talking || [];
+
   }
 
-  mount(map){
+  mount(map) {
+    console.log("mounting!")
     this.isMounted = true;
     map.addWall(this.x, this.y);
-    // If we have a behavior loop, kick off after a short delay 
+
+    //If we have a behavior, kick off after a short delay
     setTimeout(() => {
-      this.doBehaviorEvent(map)
-    }, 10);
+      this.doBehaviorEvent(map);
+    }, 10)
   }
 
-  async doBehaviorEvent(map){
-    // Don't to anything if there's a more important cutscene or no behavior
-     if(map.isCutscenePlaying || this.behaviorLoop.length === 0 || this.isStanding){
-       return;
-     }
+  update() {
+  }
 
-    // Event infos 
-    let eventConfig = this.behaviorLoop[this.behaviorLoopIndex];
-    eventConfig.who = this.id; 
+  async doBehaviorEvent(map) { 
 
-    // Event Instance out of our event config
-    const eventHandler = new OverworldEvent({
-      map, 
-      event: eventConfig
-    })
-    await eventHandler.init();
-
-    // Do this after eventHandler
-    // Next behavior
-    this.behaviorLoopIndex += 1;
-    if(this.behaviorLoopIndex === this.behaviorLoop.length){
-      // Reset eventloop 
-      this.behaviorLoopIndex = 0; 
+    //Don't do anything if there is a more important cutscene or I don't have config to do anything
+    //anyway.
+    if (map.isCutscenePlaying || this.behaviorLoop.length === 0 || this.isStanding) {
+      return;
     }
 
-    // Do it again
+    //Setting up our event with relevant info
+    let eventConfig = this.behaviorLoop[this.behaviorLoopIndex];
+    eventConfig.who = this.id;
+
+    //Create an event instance out of our next event config
+    const eventHandler = new OverworldEvent({ map, event: eventConfig });
+    await eventHandler.init(); 
+
+    //Setting the next event to fire
+    this.behaviorLoopIndex += 1;
+    if (this.behaviorLoopIndex === this.behaviorLoop.length) {
+      this.behaviorLoopIndex = 0;
+    } 
+
+    //Do it again!
     this.doBehaviorEvent(map);
+    
+
   }
-  update() {}
+
+
 }
