@@ -1,5 +1,15 @@
+:root {
+  --border-color: #291d4d;
+  --dialog-background: #fff3b4;
+
+  --menu-background: #ffe8d2;
+  --menu-border-color: #a48465;
+  --menu-font-color: #3a160d;
+  --menu-selected-background: #7fc2ff;
+}
+
 * {
-  box-sizing:border-box;
+  box-sizing: border-box;
 }
 
 body {
@@ -10,7 +20,7 @@ body {
 }
 
 .game-container {
-  position: relative; 
+  position: relative;
   width: 352px;
   height: 198px;
   margin: 0 auto;
