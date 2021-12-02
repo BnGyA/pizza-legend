@@ -1,15 +1,16 @@
 .Battle {
   position: absolute;
-  left:0;
-  right:0;
-  top:0;
-  bottom:0;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
   background-image: url(/images/maps/StreetBattle.png);
   background-size: cover;
   image-rendering: pixelated;
 }
 
-.Battle_hero, .Battle_enemy {
+.Battle_hero,
+.Battle_enemy {
   position: absolute;
   transform: scale(2);
   width: 32px;
@@ -17,7 +18,8 @@
   overflow: hidden;
   background: url(/images/characters/shadow.png) no-repeat no-repeat;
 }
-.Battle_hero img, .Battle_enemy img {
+.Battle_hero img,
+.Battle_enemy img {
   pointer-events: none;
 }
 .Battle_hero {
@@ -30,4 +32,49 @@
 .Battle_enemy {
   top: 42px;
   right: -1px;
+}
+
+/*
+* Animation
+*/
+
+@keyframes battle-damage-blink {
+  to {
+    visibility: hidden;
+  }
+}
+
+.battle-damage-blink {
+  animation: battle-damage-blink 0.3s steps(2, start) infinite;
+}
+
+@keyframes battle-spin-right {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(2);
+  }
+  25% {
+    transform: translate3d(175px, -25%, 0) rotate(45deg) scale(2);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(2);
+  }
+}
+.battle-spin-right {
+  animation: battle-spin-right 0.8s;
+}
+
+@keyframes battle-spin-left {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(2);
+  }
+  25% {
+    transform: translate3d(-100%, 25%, 0) rotate(45deg) scale(2);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(2);
+  }
+}
+
+.battle-spin-left {
+  animation: battle-spin-left 0.8s;
 }
